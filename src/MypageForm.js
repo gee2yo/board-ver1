@@ -27,10 +27,10 @@ function MypageForm() {
         <Form.Label>new password check</Form.Label>
         <Form.Control type="password" placeholder="Enter New Password Check" />
       </Form.Group>
-      <Button variant="primary" block style={marginBottom}>
+      <Button variant="primary" block="true" style={marginBottom}>
         회원정보 수정
       </Button>
-      <Button variant="primary" block>
+      <Button variant="primary" block="true">
         회원 탈퇴
       </Button>
     </div>

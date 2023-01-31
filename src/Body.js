@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Route } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import $ from "jquery";
 import {} from "jquery.cookie";
 import LoginForm from "./LoginForm";
@@ -15,10 +15,10 @@ class Body extends Component {
     function getResultForm() {
       // console.log($.cookie("login_id"));
       if ($.cookie("login_id")) {
-        resultForm = <Route exact path="/" component={BoardForm} />;
+        resultForm = <Route element={<BoardForm />} exact path="/" />;
         return resultForm;
       }
-      resultForm = <Route exact path="/" component={LoginForm} />;
+      resultForm = <Route element={<LoginForm />} exact path="/" />;
       return resultForm;
     }
 
@@ -26,10 +26,12 @@ class Body extends Component {
 
     return (
       <div>
-        <Route path="/mypage" component={MypageForm} />
-        <Route path="/boardWrite" component={BoardWriteForm} />
-        <Route path="/board/detail" component={BoardDetail} />
-        {resultForm}
+        <Routes>
+          <Route path="/mypage" component={MypageForm} />
+          <Route path="/boardWrite" component={BoardWriteForm} />
+          <Route path="/board/detail" component={BoardDetail} />
+          {resultForm}
+        </Routes>
       </div>
     );
   }

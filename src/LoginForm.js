@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Form, Button } from "react-bootstrap";
-import { loadReCaptcha, ReCaptcha } from "react-google-recaptcha-v3";
+import { GoogleReCaptcha } from "react-google-recaptcha-v3";
 import axios from "axios";
 import $ from "jquery";
 import {} from "jquery.cookie";
@@ -15,10 +15,6 @@ export default class LoginForm extends Component {
   static verifyCallback = (recaptchaToken) => {
     console.log(recaptchaToken, "<= your recaptcha token");
   };
-
-  componentDidMount() {
-    loadReCaptcha("6LfGieAUAAAAAJSOoqXS5VQdT_e5AH8u0n2e1PDb");
-  }
 
   join = () => {
     const joinEmail = this.joinEmail.value;
@@ -170,7 +166,7 @@ export default class LoginForm extends Component {
             onClick={this.join}
             variant="primary"
             type="button"
-            block
+            block="true"
           >
             회원가입
           </Button>
@@ -191,7 +187,7 @@ export default class LoginForm extends Component {
             ref={(ref) => this.loginPw === ref}
             placeholder="Password"
           />
-          <ReCaptcha
+          <GoogleReCaptcha
             sitekey="6LfGieAUAAAAAJSOoqXS5VQdT_e5AH8u0n2e1PDb"
             action="login"
             verifyCallback={this.verifyCallback}
@@ -201,7 +197,7 @@ export default class LoginForm extends Component {
             onClick={this.login}
             variant="primary"
             type="button"
-            block
+            block="true"
           >
             로그인
           </Button>

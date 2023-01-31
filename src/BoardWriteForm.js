@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import React, { Component } from "react";
-import CKEditor from "ckeditor4-react";
+import { CKEditor } from "ckeditor4-react";
 import { Button, Form } from "react-bootstrap";
 import axios from "axios";
 import $ from "jquery";
@@ -111,7 +111,7 @@ class BoardWriteForm extends Component {
           ref={(ref) => this.boardTitle === ref}
         />
         <CKEditor data={data} onChange={this.onEditorChange} />
-        <Button style={buttonStyle} onClick={this.writeBoard} block>
+        <Button style={buttonStyle} onClick={this.writeBoard} block="true">
           저장하기
         </Button>
       </div>

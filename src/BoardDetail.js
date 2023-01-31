@@ -93,7 +93,7 @@ class BoardDetail extends Component {
                   </Button>
                 </NavLink>
                 <Button
-                  block
+                  block="true"
                   onClick={() => this.deleteBoard(location.query._id)}
                 >
                   글 삭제
