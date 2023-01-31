@@ -6,19 +6,18 @@ import {} from "jquery.cookie";
 
 axios.defaults.withCredentials = true;
 
-const MypageForm = () => {
+function MypageForm() {
   const divStyle = {
-    margin: 50
+    margin: 50,
   };
   const marginBottom = {
-    marginBottom : 5
+    marginBottom: 5,
   };
   return (
-    <>
-      <div style={divStyle}>
+    <div style={divStyle}>
       <Form.Group controlId="formBasicEmail">
         <Form.Label>email</Form.Label>
-        <Form.Control type="email" disabled value={$.cookie("login_email")}/>
+        <Form.Control type="email" disabled value={$.cookie("login_email")} />
         <Form.Label>name</Form.Label>
         <Form.Control type="text" placeholder="Enter email" />
         <Form.Label>password</Form.Label>
@@ -28,15 +27,14 @@ const MypageForm = () => {
         <Form.Label>new password check</Form.Label>
         <Form.Control type="password" placeholder="Enter New Password Check" />
       </Form.Group>
-      <Button variant="primary"  block style={marginBottom}>
-      회원정보 수정
+      <Button variant="primary" block style={marginBottom}>
+        회원정보 수정
       </Button>
       <Button variant="primary" block>
-      회원 탈퇴
+        회원 탈퇴
       </Button>
-      </div>
-    </>
+    </div>
   );
-};
+}
 
 export default MypageForm;

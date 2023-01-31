@@ -1,29 +1,15 @@
+/* eslint-disable no-underscore-dangle */
 import React, { Component } from "react";
 import { Table, Button } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import axios from "axios";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 axios.defaults.withCredentials = true;
 const headers = { withCredentials: true };
 
 class BoardDetail extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      board: [],
-    };
-  }
-
-  componentDidMount() {
-    if (this.props.location.query !== undefined) {
-      this.getDetail();
-    } else {
-      window.location.href = "/";
-    }
-  }
-
-  deleteBoard = (_id) => {
+  static deleteBoard = (_id) => {
     const sendParam = {
       headers,
       _id,
@@ -44,10 +30,26 @@ class BoardDetail extends Component {
     }
   };
 
-  getDetail = () => {
+  constructor(props) {
+    super(props);
+    this.state = {
+      board: [],
+    };
+  }
+
+  componentDidMount() {
+    const { location } = this.props;
+    if (location.query !== undefined) {
+      this.getDetail();
+    } else {
+      window.location.href = "/";
+    }
+  }
+
+  getDetail = ({ location }) => {
     const sendParam = {
       headers,
-      _id: this.props.location.query._id,
+      _id: location.query._id,
     };
     const marginBottom = {
       marginBottom: 5,
@@ -82,7 +84,7 @@ class BoardDetail extends Component {
                     query: {
                       title: returnData.data.board[0].title,
                       content: returnData.data.board[0].content,
-                      _id: this.props.location.query._id,
+                      _id: location.query._id,
                     },
                   }}
                 >
@@ -92,10 +94,7 @@ class BoardDetail extends Component {
                 </NavLink>
                 <Button
                   block
-                  onClick={this.deleteBoard.bind(
-                    null,
-                    this.props.location.query._id
-                  )}
+                  onClick={() => this.deleteBoard(location.query._id)}
                 >
                   글 삭제
                 </Button>
@@ -103,24 +102,25 @@ class BoardDetail extends Component {
             </div>
           );
           this.setState({
-            board: board,
+            board,
           });
         } else {
           alert("글 상세 조회 실패");
         }
       })
-      //에러
+      // 에러
       .catch((err) => {
         console.log(err);
       });
   };
 
-  //onClick={this.getBoard.bind(null,this.props._id)}
+  // onClick={this.getBoard.bind(null,this.props._id)}
   render() {
     const divStyle = {
       margin: 50,
     };
-    return <div style={divStyle}>{this.state.board}</div>;
+    const { board } = this.state;
+    return <div style={divStyle}>{board}</div>;
   }
 }
 

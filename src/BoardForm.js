@@ -1,52 +1,33 @@
+/* eslint-disable no-underscore-dangle */
 import React, { Component } from "react";
 import { Table } from "react-bootstrap";
-import { NavLink } from "react-router-dom";
 import axios from "axios";
 import $ from "jquery";
 import {} from "jquery.cookie";
+import BoardRow from "./BoardRow";
 
 axios.defaults.withCredentials = true;
 const headers = { withCredentials: true };
 
-class BoardRow extends Component {
-  render() {
-    return (
-      <tr>
-        <td>
-          <NavLink
-            to={{ pathname: "/board/detail", query: { _id: this.props._id } }}
-          >
-            {this.props.createdAt.substring(0, 10)}
-          </NavLink>
-        </td>
-        <td>
-          <NavLink
-            to={{ pathname: "/board/detail", query: { _id: this.props._id } }}
-          >
-            {this.props.title}
-          </NavLink>
-        </td>
-      </tr>
-    );
-  }
-}
-
 class BoardForm extends Component {
-  state = {
-    boardList: [],
-  };
+  constructor() {
+    super();
+    this.state = {
+      boardList: [],
+    };
+  }
 
   componentDidMount() {
     this.getBoardList();
   }
 
   getBoardList = () => {
-    const send_param = {
+    const sendParam = {
       headers,
       _id: $.cookie("login_id"),
     };
     axios
-      .post("http://localhost:8080/board/getBoardList", send_param)
+      .post("http://localhost:8080/board/getBoardList", sendParam)
       .then((returnData) => {
         let boardList;
         if (returnData.data.list.length > 0) {
@@ -58,11 +39,11 @@ class BoardForm extends Component {
               _id={item._id}
               createdAt={item.createdAt}
               title={item.title}
-            ></BoardRow>
+            />
           ));
           // console.log(boardList);
           this.setState({
-            boardList: boardList,
+            boardList,
           });
         } else {
           boardList = (
@@ -71,7 +52,7 @@ class BoardForm extends Component {
             </tr>
           );
           this.setState({
-            boardList: boardList,
+            boardList,
           });
           // window.location.reload();
         }
@@ -85,7 +66,7 @@ class BoardForm extends Component {
     const divStyle = {
       margin: 50,
     };
-
+    const { boardList } = this.state;
     return (
       <div>
         <div style={divStyle}>
@@ -96,7 +77,7 @@ class BoardForm extends Component {
                 <th>글 제목</th>
               </tr>
             </thead>
-            <tbody>{this.state.boardList}</tbody>
+            <tbody>{boardList}</tbody>
           </Table>
         </div>
       </div>

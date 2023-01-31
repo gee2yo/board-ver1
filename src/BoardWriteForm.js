@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import React, { Component } from "react";
 import CKEditor from "ckeditor4-react";
 import { Button, Form } from "react-bootstrap";
@@ -16,41 +17,42 @@ class BoardWriteForm extends Component {
     };
   }
 
-  componentDidMount() {
-    if (this.props.location.query !== undefined) {
-      this.boardTitle.value = this.props.location.query.title;
-    }
-  }
-
-  componentWillMount() {
-    if (this.props.location.query !== undefined) {
+  UNSAFE_componentWillMount({ location }) {
+    // 컴포넌트가 마운트 되기 직전에 실행되는 메소드
+    if (location.query !== undefined) {
       this.setState({
-        data: this.props.location.query.content,
+        data: location.query.content,
       });
     }
   }
 
-  writeBoard = () => {
+  componentDidMount({ location }) {
+    // 컴포넌트가 마운트 된 직후에 실행되는 메소드
+    if (location.query !== undefined) {
+      this.boardTitle.value = location.query.title;
+    }
+  }
+
+  writeBoard = ({ location }) => {
     let url;
     let sendParam;
-
+    const { data } = this.state;
     const boardTitle = this.boardTitle.value;
-    const boardContent = this.state.data;
+    const boardContent = data;
 
     if (boardTitle === undefined || boardTitle === "") {
       alert("글 제목을 입력 해주세요.");
       boardTitle.focus();
-      return;
     } else if (boardContent === undefined || boardContent === "") {
       alert("글 내용을 입력 해주세요.");
       boardContent.focus();
     }
 
-    if (this.props.location.query !== undefined) {
+    if (location.query !== undefined) {
       url = "http://localhost:8080/board/update";
       sendParam = {
         headers,
-        _id: this.props.location.query._id,
+        _id: location.query._id,
         title: boardTitle,
         content: boardContent,
       };
@@ -97,6 +99,7 @@ class BoardWriteForm extends Component {
     const buttonStyle = {
       marginTop: 5,
     };
+    const { data } = this.state;
 
     return (
       <div style={divStyle} className="App">
@@ -105,9 +108,9 @@ class BoardWriteForm extends Component {
           type="text"
           style={titleStyle}
           placeholder="글 제목"
-          ref={(ref) => (this.boardTitle = ref)}
+          ref={(ref) => this.boardTitle === ref}
         />
-        <CKEditor data={this.state.data} onChange={this.onEditorChange} />
+        <CKEditor data={data} onChange={this.onEditorChange} />
         <Button style={buttonStyle} onClick={this.writeBoard} block>
           저장하기
         </Button>
